@@ -92,6 +92,7 @@ for link in daten:
         load_page_with_timeout(link, 6, 2)
     except Exception:
         continue
+    time.sleep(30)
     popups(driver)
     if tableAvailable(driver):
         html = driver.page_source
