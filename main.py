@@ -132,10 +132,10 @@ filename = "quartalszahlen_" + datetime.datetime.strftime(datetime.datetime.now(
 filename2 = "quartalszahlen_" + datetime.datetime.strftime(datetime.datetime.now(), "%d.%m.%y_%H%M") + "_" + str(2) + ".csv"
 
 try:
-    df.to_csv('/Users/justinwild/Downloads/' + filename, sep = ";", index = False, encoding = 'utf-8')
-   # df.to_csv('//Master/F/User/Microsoft Excel/Privat/Börse/Investing/' + filename, sep = ";", index = False, encoding = 'utf-8')
+    # df.to_csv('/Users/justinwild/Downloads/' + filename, sep = ";", index = False, encoding = 'utf-8')
+   df.to_csv('//Master/F/User/Microsoft Excel/Privat/Börse/Investing/' + filename, sep = ";", index = False, encoding = 'utf-8')
 
 except Exception:
     print("Spalten passen nicht, daher ohne Bezeichnung ausgeworfen!")
-    df2.to_csv('/Users/justinwild/Downloads/' + filename2, sep = ";", index = False, encoding = 'utf-8')
-    # df2.to_csv('//Master/F/User/Microsoft Excel/Privat/Börse/Investing/' + filename2, sep=";", index=False, encoding='utf-8')
+    # df2.to_csv('/Users/justinwild/Downloads/' + filename2, sep = ";", index = False, encoding = 'utf-8')
+    df2.to_csv('//Master/F/User/Microsoft Excel/Privat/Börse/Investing/' + filename2, sep=";", index=False, encoding='utf-8')
