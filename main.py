@@ -9,6 +9,10 @@ import pandas
 from Reader import Reader
 from selenium.common.exceptions import TimeoutException
 import re
+import undetected_chromedriver as uc
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium_stealth import stealth
 
 def getdata():
     rd = Reader()
@@ -52,7 +56,7 @@ def popups(driver):
 def tableAvailable(driver):
     try:
         WebDriverWait(driver, 0.5).until(
-            EC.visibility_of_element_located((By.CLASS_NAME, 'earningsPageTbl')))
+            EC.visibility_of_element_located((By.CLASS_NAME, 'historyTab')))
         # print("Tabelle vorhanden")
         return True
     except Exception:
@@ -60,8 +64,19 @@ def tableAvailable(driver):
         return False
 
 daten = getdata()
+# options = uc.ChromeOptions
 
+# driver = uc.Chrome(service = ChromeDriverManager().install())
 driver = webdriver.Chrome()
+
+stealth(driver,
+        languages=["en-US", "en"],
+        vendor="Google Inc.",
+        platform="Win32",
+        webgl_vendor="Intel Inc.",
+        renderer="Intel Iris OpenGL Engine",
+        fix_hairline=True,
+        )
 
 def load_page_with_timeout(url, timeout, retries):
     attempt = 0
@@ -92,7 +107,6 @@ for link in daten:
         load_page_with_timeout(link, 6, 2)
     except Exception:
         continue
-    time.sleep(30)
     popups(driver)
     if tableAvailable(driver):
         html = driver.page_source
@@ -118,10 +132,10 @@ filename = "quartalszahlen_" + datetime.datetime.strftime(datetime.datetime.now(
 filename2 = "quartalszahlen_" + datetime.datetime.strftime(datetime.datetime.now(), "%d.%m.%y_%H%M") + "_" + str(2) + ".csv"
 
 try:
-    # df.to_csv('/Users/justinwild/Downloads/' + filename, sep = ";", index = False, encoding = 'utf-8')
-    df.to_csv('//Master/F/User/Microsoft Excel/Privat/Börse/Investing/' + filename, sep = ";", index = False, encoding = 'utf-8')
+    df.to_csv('/Users/justinwild/Downloads/' + filename, sep = ";", index = False, encoding = 'utf-8')
+   # df.to_csv('//Master/F/User/Microsoft Excel/Privat/Börse/Investing/' + filename, sep = ";", index = False, encoding = 'utf-8')
 
 except Exception:
     print("Spalten passen nicht, daher ohne Bezeichnung ausgeworfen!")
-    # df2.to_csv('/Users/justinwild/Downloads/' + filename2, sep = ";", index = False, encoding = 'utf-8')
-    df2.to_csv('//Master/F/User/Microsoft Excel/Privat/Börse/Investing/' + filename2, sep=";", index=False, encoding='utf-8')
+    df2.to_csv('/Users/justinwild/Downloads/' + filename2, sep = ";", index = False, encoding = 'utf-8')
+    # df2.to_csv('//Master/F/User/Microsoft Excel/Privat/Börse/Investing/' + filename2, sep=";", index=False, encoding='utf-8')
